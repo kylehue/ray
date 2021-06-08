@@ -1,8 +1,8 @@
 class Game {
 	constructor() {
 		this.camera = new Camera2D(drawingContext, {
-			zoomTransitionSpeed: 1,
-			moveTransitionSpeed: 1
+			zoomTransitionSpeed: 0.1,
+			moveTransitionSpeed: 0.05
 		});
 
 		this.mouse = createVector();
@@ -93,7 +93,11 @@ class Game {
 
 	render() {
 		this.camera.begin();
-		this.camera.zoomTo(this.world.size);
+		let movement = this.world.mouse.copy();
+		movement.limit(20)
+		this.camera.moveTo(movement.x, movement.y);
+
+		this.camera.zoomTo(width / 2 + this.world.size);
 		this.world.render();
 		this.camera.end();
 	}
